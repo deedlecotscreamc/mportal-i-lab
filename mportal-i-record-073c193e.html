@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>爱游戏 · 信息索引</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fdf6ed 0%, #fce9d9 50%, #f7dac0 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.2rem;
+        }
+
+        .page-container {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        /* 显式目录 / 知识库头部 */
+        .library-header {
+            background: rgba(255, 245, 235, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 40px 40px 28px 28px;
+            padding: 1.6rem 2rem 1.2rem;
+            margin-bottom: 2.4rem;
+            box-shadow: 0 8px 18px rgba(180, 110, 60, 0.08);
+            border: 1px solid rgba(255, 215, 180, 0.25);
+            text-align: center;
+        }
+
+        .library-header h1 {
+            font-size: 2.2rem;
+            font-weight: 450;
+            letter-spacing: 2px;
+            color: #5e3a28;
+            margin-bottom: 0.3rem;
+        }
+
+        .library-header .sub {
+            font-size: 0.95rem;
+            color: #8b6e5a;
+            background: #fff2e8;
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 100px;
+            margin-top: 0.2rem;
+        }
+
+        .grid-directory {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.6rem;
+            margin-bottom: 2.8rem;
+        }
+
+        @media (min-width: 600px) {
+            .grid-directory {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: #fffffffa;
+            backdrop-filter: blur(2px);
+            border-radius: 32px;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 8px 30px rgba(140, 80, 40, 0.06), 0 2px 6px rgba(0,0,0,0.02);
+            border: 1px solid #fff5eb;
+            transition: box-shadow 0.15s;
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 32px rgba(150, 80, 30, 0.08);
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            font-weight: 450;
+            color: #4f3222;
+            border-bottom: 2px solid #f5dac8;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.3px;
+        }
+
+        .card ul, .card p {
+            color: #3f2c1f;
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .card li::before {
+            content: "·";
+            position: absolute;
+            left: 0.2rem;
+            color: #b48365;
+            font-weight: 700;
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .tag {
+            background: #fceddf;
+            color: #5f3a26;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            border: 1px solid #f3d4bd;
+        }
+
+        .story-block {
+            background: #fffffffa;
+            border-radius: 32px;
+            padding: 1.8rem 2rem;
+            margin-bottom: 1.6rem;
+            border: 1px solid #fff2e6;
+            box-shadow: 0 4px 14px rgba(150, 80, 40, 0.03);
+        }
+
+        .story-block p {
+            color: #3d2b1e;
+            line-height: 1.75;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .story-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .link-button {
+            display: inline-block;
+            background: #f5e0d1;
+            color: #4a2f1f;
+            padding: 0.35rem 1.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 450;
+            border: 1px solid #ebcdb8;
+            transition: background 0.1s, border 0.1s;
+            margin: 0.2rem 0;
+        }
+
+        .link-button:hover {
+            background: #efd3be;
+            border-color: #dbb49b;
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 2rem 0 2.2rem;
+        }
+
+        @media (min-width: 600px) {
+            .info-row {
+                flex-direction: row;
+            }
+            .info-row .card {
+                flex: 1;
+            }
+        }
+
+        .faq-mini {
+            background: #fffaf5;
+            border-radius: 28px;
+            padding: 1.6rem 1.8rem;
+            border: 1px solid #f5dccc;
+            margin: 1.6rem 0 2rem;
+        }
+
+        .faq-mini h3 {
+            font-size: 1.2rem;
+            font-weight: 450;
+            color: #4f3222;
+            margin-bottom: 0.8rem;
+        }
+
+        .faq-item {
+            margin-bottom: 0.8rem;
+        }
+
+        .faq-item strong {
+            display: block;
+            font-weight: 500;
+            color: #5e3a28;
+            margin-bottom: 0.2rem;
+        }
+
+        .faq-item p {
+            color: #4c3627;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .tip-area {
+            background: #faf0e8;
+            border-left: 4px solid #cfaa8f;
+            padding: 1.2rem 1.6rem;
+            border-radius: 28px;
+            margin: 1.6rem 0;
+            color: #3b2a1e;
+            font-size: 0.95rem;
+        }
+
+        .footer-note {
+            margin-top: 2.8rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #7b5f4b;
+            border-top: 1px solid #edd7c8;
+            padding-top: 1.6rem;
+        }
+
+        .inline-link {
+            color: #7b4d30;
+            text-decoration: none;
+            font-weight: 450;
+            border-bottom: 1px solid #ddbcab;
+            transition: border 0.1s;
+        }
+
+        .inline-link:hover {
+            border-bottom-color: #7b4d30;
+        }
+    </style>
+</head>
+<body>
+<div class="page-container">
+
+    <!-- 目录式头部 说明区域 -->
+    <div class="library-header">
+        <h1>📁 资料索引 · 知识库</h1>
+        <div class="sub">切入角度：整理 · 索引 · 检索</div>
+    </div>
+
+    <!-- 介绍 + 特点卡片网格 (目录感) -->
+    <div class="grid-directory">
+        <div class="card">
+            <h2>◈ 信息说明</h2>
+            <p>本库围绕「爱游戏」相关记录、常见概念与参考材料进行整理。条目来源于公开信息与社区归纳，适合需要快速查阅背景或对比线索的场景。</p>
+            <p style="margin-top:0.8rem;">若需了解更完整的资料集，可参考 <a href="https://mportal-i-game.com.cn" class="inline-link">爱游戏</a> 所提供的索引框架。</p>
+        </div>
+        <div class="card">
+            <h2>◈ 分类特点</h2>
+            <ul>
+                <li>按内容主题分区，非时间线排列</li>
+                <li>每条记录附简短说明与关联标签</li>
+                <li>涉及版本、术语、常见问题等条目</li>
+                <li>持续补充，保持克制更新</li>
+            </ul>
+            <div class="tag-group">
+                <span class="tag">#术语</span>
+                <span class="tag">#版本记录</span>
+                <span class="tag">#参考</span>
+                <span class="tag">#索引</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 叙述性介绍段 (自然叙述感) -->
+    <div class="story-block">
+        <p>整理这件事，常常是从几个零散问题开始的。比如某个说法在哪里出现过，又或者某个版本号对应什么内容。翻看记录多了，就慢慢攒出一套自己能用的索引。</p>
+        <p>这里存放的，就是类似这样一些经过归置的条目——不追求全面，但希望每条都有实在的出处或上下文。如果你也在梳理类似的资料，或许可以拿 <a href="https://mportal-i-game.com.cn" class="inline-link">爱游戏</a> 的信息主线做一个对照坐标。</p>
+    </div>
+
+    <!-- 相关信息区：两个小卡片 -->
+    <div class="info-row">
+        <div class="card" style="padding: 1.4rem 1.6rem;">
+            <h2 style="font-size:1.2rem; border-bottom-width:1px;">▸ 相关条目举例</h2>
+            <ul style="font-size:0.9rem;">
+                <li>界面与操作说明（基础篇）</li>
+                <li>常见检索关键词</li>
+                <li>版本变迁备忘</li>
+                <li>社区参考文档</li>
+            </ul>
+        </div>
+        <div class="card" style="padding: 1.4rem 1.6rem;">
+            <h2 style="font-size:1.2rem; border-bottom-width:1px;">▸ 使用提示</h2>
+            <p style="font-size:0.9rem;">条目按主题聚合，部分存在交叉引用。建议结合具体问题定位对应区块，不必从头读到尾。</p>
+            <p style="font-size:0.85rem; margin-top:0.6rem; color:#5e4433;">🔍 若需要更完整的目录结构，可参考主站导航。</p>
+        </div>
+    </div>
+
+    <!-- 提示区 -->
+    <div class="tip-area">
+        <strong style="display:block; margin-bottom:0.3rem;">📌 资料性质提示</strong>
+        本索引由爱好者整理，不保证覆盖所有细节。内容仅供个人参考，请以实际呈现为准。如有明显错漏，欢迎指正。
+    </div>
+
+    <!-- FAQ 摘要风格 (FAQ 类) -->
+    <div class="faq-mini">
+        <h3>❓ 常见索引问题 (FAQ)</h3>
+        <div class="faq-item">
+            <strong>Q：条目顺序有固定规则吗？</strong>
+            <p>大致按主题分组，同一组内尽量把相近概念放在一起。没有严格的时间或优先级排序。</p>
+        </div>
+        <div class="faq-item">
+            <strong>Q：如何快速找到某个特定记录？</strong>
+            <p>建议使用页面内搜索（Ctrl+F）配合标签栏。也可以先定位到相关大类，再逐条浏览。</p>
+        </div>
+        <div class="faq-item">
+            <strong>Q：是否会持续更新？</strong>
+            <p>随资料积累不定期补充，更新记录会附在索引末尾。不会频繁改动已有条目的核心内容。</p>
+        </div>
+    </div>
+
+    <!-- 自然嵌入链接的句子 (已在前文使用了 inline-link 风格的 爱游戏) 此处再做一个明显的按钮式链接但保持自然 -->
+    <div style="text-align: center; margin: 1.2rem 0 0.2rem;">
+        <span style="background: #faeade; padding: 0.3rem 1.2rem; border-radius: 60px; display: inline-block;">
+            资料主线参考：<a href="https://mportal-i-game.com.cn" class="link-button" style="margin-left:0.3rem;">爱游戏</a>
+        </span>
+    </div>
+
+    <!-- 结尾 -->
+    <div class="footer-note">
+        <span>资料索引 · 版本 2025.04 · 仅供参考</span>
+    </div>
+
+</div>
+</body>
+</html>
